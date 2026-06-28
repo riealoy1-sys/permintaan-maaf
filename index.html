@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maaf ya Vika...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #0d1321; color: #f4f5f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; text-align: center; }
+        
+        /* Tirai Depan */
+        .tirai { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #1d2d44, #0d1321); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; transition: transform 1.5s ease-in-out; padding: 20px; }
+        .tirai.buka { transform: translateY(-100%); pointer-events: none; }
+        .btn-buka { padding: 14px 35px; background: #f43f5e; border: none; border-radius: 25px; color: white; font-weight: 500; font-size: 15px; cursor: pointer; margin-top: 25px; box-shadow: 0 5px 15px rgba(244,63,94,0.4); transition: 0.3s; }
+        
+        /* Konten Utama */
+        .konten { padding: 25px 20px; width: 100%; max-width: 400px; display: none; z-index: 2; background: rgba(29, 45, 68, 0.4); border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+        .konten.muncul { display: block; animation: fadeIn 1.8s ease; }
+        .love-title { font-size: 11px; color: #f43f5e; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px; font-weight: 600; }
+        .love-subtitle { font-size: 18px; font-weight: 500; color: #ffffff; margin-bottom: 20px; line-height: 1.4; }
+        
+        /* Galeri Foto */
+        .slide-foto { width: 100%; height: 300px; border-radius: 15px; object-fit: cover; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* Teks Cerita */
+        .teks-cerita { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85); min-height: 90px; margin-bottom: 25px; padding: 0 5px; text-align: justify; }
+        .btn-next { padding: 11px 30px; background: #ffffff; color: #0d1321; border: none; border-radius: 25px; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        /* Halaman Akhir */
+        .halaman-bunga { display: none; padding: 25px 20px; width: 100%; max-width: 400px; animation: fadeIn 2s ease; background: rgba(29, 45, 68, 0.4); border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
+        .img-bunga { width: 45%; max-width: 180px; margin-bottom: 20px; animation: melayang 3s ease-in-out infinite; }
+        .kartu-ucapan { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+
+        .btn-final { padding: 10px 25px; background: #22c55e; color: white; border: none; border-radius: 20px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes melayang { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    </style>
+</head>
+<body>
+
+    <!-- AUDIO PEMUTAR MUSIK -->
+    <audio id="lagu" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Halaman Tirai Depan -->
+    <div class="tirai" id="halamanTirai">
+        <p style="font-size: 40px; margin-bottom: 15px;">😔</p>
+        <p style="font-size: 11px; letter-spacing: 3px; opacity: 0.6; text-transform: uppercase; color: #f43f5e;">Pesan Tulus</p>
+        <h1 style="color: #ffffff; font-size: 22px; font-weight: 400; margin: 5px 0 10px 0; padding: 0 20px;">Sebentar Vik, ada yang mau gua sampein...</h1>
+        <button class="btn-buka" onclick="bukaTirai()">Buka Pesan Ini</button>
+    </div>
+
+    <!-- Konten Utama (Babak Cerita Maaf) -->
+    <div class="konten" id="kontenUtama">
+        <p class="love-title" id="babTitle">BAGIAN 1 / 4</p>
+        <h2 class="love-subtitle" id="subTitle">Gua Tahu Gua Salah</h2>
+        
+        <img src="foto1.jpg" class="slide-foto" id="fotoGanti">
+        
+        <p class="teks-cerita" id="teksGanti">Hai Vika... Maaf ya kalau belakangan ini gua bikin hari lo berantakan. Gua bener-bener nyesel banget sama omongan gua kemarin yang udah bikin hati lo sakit. Nggak ada niatan sedikit pun dari gua buat sengaja nyakitin perasaan lo, Vik.</p>
+        
+        <button class="btn-next" onclick="nextBabak()" id="btnAksi">Baca Kelanjutannya</button>
+    </div>
+
+    <!-- Halaman Akhir (Pernyataan & Janji) -->
+    <div class="halaman-bunga" id="kontenBunga">
+        <div style="font-size: 50px; margin-bottom: 10px;">🙏❤️</div>
+        <div class="kartu-ucapan">
+            <p style="font-size: 11px; opacity: 0.6; letter-spacing: 2px; color: #f43f5e; font-weight: 600;">JANJI GUA</p>
+            <h2 style="font-size: 18px; margin: 5px 0 15px 0; font-weight: 500;">Gua bakal belajar jaga ketikan & omongan gua lagi.</h2>
+            <p style="font-size: 13px; opacity: 0.8; line-height: 1.7; margin-bottom: 15px; text-align: justify;">Gua sayang banget sama lo, Vik. Gua nggak mau kehilangan lo cuma karena kebodohan ego gua sendiri. Kalau lo udah baca ini dan udah rada mendingan, kabarin gua ya? Gua siap dengerin semua unek-unek lo.</p>
+            <p style="font-size: 11px; opacity: 0.5; margin-bottom: 15px;">— Dari orang yang nyesel banget nyakitin lo</p>
+            
+            <!-- Tombol interaktif buat langsung WhatsApp lo -->
+            <button class="btn-final" onclick="maafkan()">Klik kalau Vika mau maafin</button>
+        </div>
+    </div>
+
+    <script>
+        let babakSaatIni = 1;
+        const lagu = document.getElementById('lagu');
+
+        // Database Pesan Maaf Berdasarkan Babak
+        const dataKonten = {
+            2: {
+                bab: "BAGIAN 2 / 4",
+                sub: "Gua Terlalu Ceroboh",
+                foto: "foto2.jpg",
+                teks: "Gua sadar, kadang ucapan gua keluar gitu aja tanpa mikirin posisi lo yang dengerinnya. Harusnya gua bisa lebih ngertiin perasaan lo, bukan malah nurutin emosi atau kecerobohan gua sendiri. Melihat lo sedih atau diem gara-gara gua itu rasanya bener-bener menyiksa diri gua sendiri, Vik.",
+                btn: "Lanjut"
+            },
+            3: {
+                bab: "BAGIAN 3 / 4",
+                sub: "Kangen Senyum Lo",
+                foto: "foto3.jpg",
+                teks: "Gua rindu banget interaksi kita yang biasa, rindu denger cerita lo, rindu lihat lo ketawa tanpa ada beban dari kesalahan gua. Gua bener-bener minta maaf ya, Vik. Tolong kasih gua kesempatan buat nebus kesalahan gua kemarin dan bikin lo senyum lagi.",
+                btn: "Lanjut"
+            },
+            4: {
+                bab: "BAGIAN 4 / 4",
+                sub: "Satu Hal yang Harus Lo Tahu",
+                foto: "foto4.jpg",
+                teks: "Di mata gua, lo tetep Vika yang paling berharga. Gua sangat bersyukur punya lo di hidup gua, dan gua benci fakta bahwa gua sendiri yang udah bikin orang seberharga lo ngerasa sedih. Maafin gua ya, sayang...",
+                btn: "Lihat Pesan Terakhir"
+            }
+        };
+
+        function bukaTirai() {
+            lagu.play().catch(e => console.log("Musik diputar otomatis setelah interaksi."));
+            document.getElementById('halamanTirai').classList.add('buka');
+            
+            setTimeout(() => {
+                document.getElementById('kontenUtama').classList.add('muncul');
+            }, 1000);
+        }
+
+        function nextBabak() {
+            babakSaatIni++;
+            if (dataKonten[babakSaatIni]) {
+                document.getElementById('babTitle').innerText = dataKonten[babakSaatIni].bab;
+                document.getElementById('subTitle').innerText = dataKonten[babakSaatIni].sub;
+                document.getElementById('fotoGanti').src = dataKonten[babakSaatIni].foto;
+                document.getElementById('teksGanti').innerText = dataKonten[babakSaatIni].teks;
+                document.getElementById('btnAksi').innerText = dataKonten[babakSaatIni].btn;
+            } else {
+                document.getElementById('kontenUtama').style.display = 'none';
+                document.getElementById('kontenBunga').style.style.display = 'block'; // Jaga-jaga
+                document.getElementById('kontenBunga').setAttribute("style", "display:block;");
+            }
+        }
+
+        function maafkan() {
+            // Ganti nomor di bawah ini dengan nomor WhatsApp lo (awali dengan 62)
+            window.location.href = "https://wa.me/628123456789?text=Iya%20udah%20gua%20maafin,%20jangan%20diulangin%20lagi%20ya!";
+        }
+    </script>
+</body>
+</html>
